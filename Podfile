@@ -8,6 +8,7 @@ target 'MovieApp' do
   # Pods for MovieApp
 
   pod 'Moya'
+  pod 'AlamofireImage'
 
   target 'MovieAppTests' do
     inherit! :search_paths

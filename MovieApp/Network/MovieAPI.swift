@@ -31,7 +31,6 @@ extension MovieApi: TargetType {
     }
     
     public var sampleData: Data {
-        // "json".data(using: .utf8)
         return Data() // TODO: return example data for unit test
     }
     
@@ -42,8 +41,6 @@ extension MovieApi: TargetType {
             parameters["page"] = page
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
         }
-        
-        // return .requestPlain // for request that not need parameters
     }
     
     public var headers: [String: String]? {
