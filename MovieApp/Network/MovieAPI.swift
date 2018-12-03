@@ -35,7 +35,7 @@ extension MovieApi: TargetType {
     }
     
     public var task: Task {
-        var parameters: [String: Any] = ["api_key": "858bc833199ca918eff478a89b8f64d9"]
+        var parameters: [String: Any] = ["api_key": Utility.util.apiKey]
         switch self {
         case .nowPlaying(let page):
             parameters["page"] = page

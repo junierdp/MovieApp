@@ -113,6 +113,7 @@ extension MovieViewController: MovieDelegate {
     
     func showMovieDetail(movie: Movie) {
         self.performSegue(withIdentifier: "goToMovieDetailVC", sender: movie)
+        Utility.util.logMovieFirebaseEvent(movie: movie)
     }
 }
 

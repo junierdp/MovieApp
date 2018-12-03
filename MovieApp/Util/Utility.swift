@@ -8,12 +8,42 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class Utility {
     static let util = Utility()
     
     var overlayView = UIView()
     let screenSize: CGRect = UIScreen.main.bounds
+    
+    var apiKey: String = ""
+    var remoteConfig: RemoteConfig!
+    
+    func loadRemoteConfig(whenLoaded: @escaping () -> Void) {
+        self.remoteConfig = RemoteConfig.remoteConfig()
+        let appDefaultValues: [String: Any] = [
+            "movie_db_api_key": "858bc833199ca918eff478a89b8f64d9"
+        ]
+        self.remoteConfig.setDefaults(appDefaultValues as? [String : NSObject])
+        
+        self.remoteConfig.fetch(withExpirationDuration: 3600, completionHandler: { status, error in
+            if status == .success {
+                self.remoteConfig.activateFetched()
+            } else {
+                print("Error getting remote config")
+            }
+            self.apiKey = self.remoteConfig["movie_db_api_key"].stringValue!
+            whenLoaded()
+        })
+    }
+    
+    func logMovieFirebaseEvent(movie: Movie) {
+        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+            AnalyticsParameterItemID: movie.id as Any,
+            AnalyticsParameterItemName: movie.title as Any,
+            AnalyticsParameterContentType: "movie"
+            ])
+    }
     
     func displayActivityIndicator(view: UIView) {
         let activityIndicator = UIActivityIndicatorView.init(style: .white)

@@ -39,23 +39,25 @@ class MovieViewModel {
             })
             self.currentPage += 1
         } else {
-            self.movieProvider.request(.nowPlaying(page: self.currentPage + 1), completion: { result in
-                switch result {
-                case .success(let result):
-                    do {
-                        let response = try JSONDecoder().decode(Movies.self, from: result.data)
-                        self.movies = response.results!
-                        self.whenLoaded()
-                        self.saveMovies(movies: response.results!)
-                    } catch let error {
+            Utility.util.loadRemoteConfig {
+                self.movieProvider.request(.nowPlaying(page: self.currentPage + 1), completion: { result in
+                    switch result {
+                    case .success(let result):
+                        do {
+                            let response = try JSONDecoder().decode(Movies.self, from: result.data)
+                            self.movies = response.results!
+                            self.whenLoaded()
+                            self.saveMovies(movies: response.results!)
+                        } catch let error {
+                            print(error)
+                            self.onError("Error") // TODO: Add descripting error
+                        }
+                    case .failure(let error):
                         print(error)
                         self.onError("Error") // TODO: Add descripting error
                     }
-                case .failure(let error):
-                    print(error)
-                    self.onError("Error") // TODO: Add descripting error
-                }
-            })
+                })
+            }
         }
     }
     
