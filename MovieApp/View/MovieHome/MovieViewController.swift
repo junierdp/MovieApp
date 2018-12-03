@@ -127,6 +127,7 @@ extension MovieViewController: MovieDelegate {
 // Mark: - MovieFilterDelefate
 extension MovieViewController: FilterDelegate {
     func setFilterSelected(filter: MovieViewModel.MovieFilter) {
-        // TODO:
+        self.movieViewModel.sortMovieBy(filter: filter)
+        self.pagerCollectionView.reloadData()
     }
 }

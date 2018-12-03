@@ -74,7 +74,7 @@ class MovieViewModel {
     
     func getRatingImage(id: Int) -> UIImage {
         let average: Double = (self.getMovieById(id: id)?.voteAverage)!
-
+        
         let rating = average
         switch rating {
         case 0..<2.5:
@@ -209,6 +209,17 @@ class MovieViewModel {
             try context.save()
         } catch let error {
             print(error)
+        }
+    }
+    
+    func sortMovieBy(filter: MovieFilter) {
+        switch filter {
+        case .name:
+            self.movies.sort(by: { $0.title! < $1.title! })
+        case .rating:
+            self.movies.sort(by: { $0.voteAverage! > $1.voteAverage! })
+        case .year:
+            self.movies.sort(by: { $0.releaseDate! > $1.releaseDate! })
         }
     }
 }
