@@ -240,6 +240,7 @@
 				613C016521B2E06B00167705 /* Frameworks */,
 				613C016621B2E06B00167705 /* Resources */,
 				72A3556E80C3A651F07DE188 /* [CP] Embed Pods Frameworks */,
+				61C86A0421B58959003986E2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -330,6 +331,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		61C86A0421B58959003986E2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n";
+		};
 		72A3556E80C3A651F07DE188 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -590,6 +609,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7N6FSGEBRG;
 				INFOPLIST_FILE = MovieApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
