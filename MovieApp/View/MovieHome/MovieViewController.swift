@@ -30,7 +30,6 @@ class MovieViewController: UIViewController {
     private func setUpRequestCallBack() {
         // While loading
         self.movieViewModel.whileLoading = {
-            Utility.util.displayActivityIndicator(view: <#T##UIView#>)
             Utility.util.displayActivityIndicator(view: (self.navigationController?.view)!)
         }
         
