@@ -37,6 +37,14 @@ class Utility {
         })
     }
     
+    func logMovieFirebaseEvent(movie: Movie) {
+        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+            AnalyticsParameterItemID: movie.id as Any,
+            AnalyticsParameterItemName: movie.title as Any,
+            AnalyticsParameterContentType: "movie"
+            ])
+    }
+    
     func displayActivityIndicator(view: UIView) {
         let activityIndicator = UIActivityIndicatorView.init(style: .white)
         overlayView = UIView(frame: self.screenSize)

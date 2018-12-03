@@ -13,6 +13,7 @@ target 'MovieApp' do
   pod 'Firebase/RemoteConfig'
   pod 'Fabric'
   pod 'Crashlytics'
+  pod 'Firebase/Analytics'
 
   target 'MovieAppTests' do
     inherit! :search_paths
