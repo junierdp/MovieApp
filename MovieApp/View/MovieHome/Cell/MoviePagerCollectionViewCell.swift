@@ -11,7 +11,7 @@ import UIKit
 protocol MovieDelegate {
     func showMovieDetail(movie: Movie)
     func setFavoriteMovie(id: Int)
-//    func getIsFavoriteMovie(id: Int)
+    func loadNewMovies(index: Int)
 }
 
 class MoviePagerCollectionViewCell: UICollectionViewCell {
@@ -25,6 +25,7 @@ class MoviePagerCollectionViewCell: UICollectionViewCell {
     
     var movieViewModel: MovieViewModel = MovieViewModel()
     var movieDelegate: MovieDelegate?
+    var section: Int = 0
 }
 
 // Mark: - TableViewDelegate, TableViewDatasource
@@ -47,8 +48,11 @@ extension MoviePagerCollectionViewCell: UITableViewDelegate, UITableViewDataSour
             cell.movieFavoriteButton.tintColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         }
         
+//        cell.movieBackgroundImage.image = UIImage()
         self.movieViewModel.downloadImage(id: (movie.id)!, whenLoaded: { image in
-            cell.movieBackgroundImage.image = image
+            DispatchQueue.main.async {
+                cell.movieBackgroundImage.image = image
+            }
         })
         
         cell.movie = self.movieViewModel.movies[indexPath.row]
@@ -63,5 +67,11 @@ extension MoviePagerCollectionViewCell: UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.movieDelegate?.showMovieDetail(movie: (self.movieViewModel.movies[indexPath.row]))
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if section == 0 {
+            self.movieDelegate?.loadNewMovies(index: indexPath.row)
+        }
     }
 }

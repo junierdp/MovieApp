@@ -38,6 +38,7 @@ class MovieViewModel {
                 self.appedSavedMovie(savedMovie: movie)
             })
             self.currentPage += 1
+            self.whenLoaded()
         } else {
             Utility.util.loadRemoteConfig {
                 self.movieProvider.request(.nowPlaying(page: self.currentPage + 1), completion: { result in
@@ -45,7 +46,9 @@ class MovieViewModel {
                     case .success(let result):
                         do {
                             let response = try JSONDecoder().decode(Movies.self, from: result.data)
-                            self.movies = response.results!
+                            response.results?.forEach({ movie in
+                                self.movies.append(movie)
+                            })
                             self.whenLoaded()
                             self.saveMovies(movies: response.results!)
                         } catch let error {
@@ -71,7 +74,7 @@ class MovieViewModel {
     
     func getRatingImage(id: Int) -> UIImage {
         let average: Double = (self.getMovieById(id: id)?.voteAverage)!
-
+        
         let rating = average
         switch rating {
         case 0..<2.5:
@@ -206,6 +209,17 @@ class MovieViewModel {
             try context.save()
         } catch let error {
             print(error)
+        }
+    }
+    
+    func sortMovieBy(filter: MovieFilter) {
+        switch filter {
+        case .name:
+            self.movies.sort(by: { $0.title! < $1.title! })
+        case .rating:
+            self.movies.sort(by: { $0.voteAverage! > $1.voteAverage! })
+        case .year:
+            self.movies.sort(by: { $0.releaseDate! > $1.releaseDate! })
         }
     }
 }

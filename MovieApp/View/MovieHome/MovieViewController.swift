@@ -30,18 +30,20 @@ class MovieViewController: UIViewController {
     private func setUpRequestCallBack() {
         // While loading
         self.movieViewModel.whileLoading = {
-            // Display loading
+            Utility.util.displayActivityIndicator(view: <#T##UIView#>)
+            Utility.util.displayActivityIndicator(view: (self.navigationController?.view)!)
         }
         
         // When loaded
         self.movieViewModel.whenLoaded = {
-            // Set up movie collection view data
             self.pagerCollectionView.reloadData()
+            Utility.util.removeActivityIndicator(view: (self.navigationController?.view)!)
         }
         
         // On error
         self.movieViewModel.onError = { message in
-            // Display error message
+            Utility.util.removeActivityIndicator(view: (self.navigationController?.view)!)
+            Utility.util.alert("Oops!", message: message, titleAlert: "OK", style: .default, view: self.navigationController!)
         }
     }
     
@@ -83,6 +85,7 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pagerCell", for: indexPath) as! MoviePagerCollectionViewCell
         
         cell.movieDelegate = self
+        cell.section = indexPath.section
         if indexPath.section == 1 {
             cell.movieViewModel.movies = self.movieViewModel.movies.filter({ $0.isFavorite })
         } else {
@@ -106,6 +109,12 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
 // Mark: - MovieDelegate
 extension MovieViewController: MovieDelegate {
+    func loadNewMovies(index: Int) {
+        if index == self.movieViewModel.movies.count - 1 {
+            self.movieViewModel.getMovies()
+        }
+    }
+    
     func setFavoriteMovie(id: Int) {
         self.movieViewModel.setFavoriteMovie(id: id)
         self.pagerCollectionView.reloadData()
@@ -120,6 +129,7 @@ extension MovieViewController: MovieDelegate {
 // Mark: - MovieFilterDelefate
 extension MovieViewController: FilterDelegate {
     func setFilterSelected(filter: MovieViewModel.MovieFilter) {
-        // TODO:
+        self.movieViewModel.sortMovieBy(filter: filter)
+        self.pagerCollectionView.reloadData()
     }
 }
