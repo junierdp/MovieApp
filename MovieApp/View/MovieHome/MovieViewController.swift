@@ -83,6 +83,7 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pagerCell", for: indexPath) as! MoviePagerCollectionViewCell
         
         cell.movieDelegate = self
+        cell.section = indexPath.section
         if indexPath.section == 1 {
             cell.movieViewModel.movies = self.movieViewModel.movies.filter({ $0.isFavorite })
         } else {
@@ -106,6 +107,12 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
 // Mark: - MovieDelegate
 extension MovieViewController: MovieDelegate {
+    func loadNewMovies(index: Int) {
+        if index == self.movieViewModel.movies.count - 1 {
+            self.movieViewModel.getMovies()
+        }
+    }
+    
     func setFavoriteMovie(id: Int) {
         self.movieViewModel.setFavoriteMovie(id: id)
         self.pagerCollectionView.reloadData()

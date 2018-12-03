@@ -38,6 +38,7 @@ class MovieViewModel {
                 self.appedSavedMovie(savedMovie: movie)
             })
             self.currentPage += 1
+            self.whenLoaded()
         } else {
             Utility.util.loadRemoteConfig {
                 self.movieProvider.request(.nowPlaying(page: self.currentPage + 1), completion: { result in
@@ -45,7 +46,9 @@ class MovieViewModel {
                     case .success(let result):
                         do {
                             let response = try JSONDecoder().decode(Movies.self, from: result.data)
-                            self.movies = response.results!
+                            response.results?.forEach({ movie in
+                                self.movies.append(movie)
+                            })
                             self.whenLoaded()
                             self.saveMovies(movies: response.results!)
                         } catch let error {
