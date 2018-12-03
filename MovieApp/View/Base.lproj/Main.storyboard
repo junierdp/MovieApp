@@ -61,8 +61,9 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="418" height="170"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="example-movie-bg" translatesAutoresizingMaskIntoConstraints="NO" id="xWx-Nr-FO9">
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="example-movie-bg" translatesAutoresizingMaskIntoConstraints="NO" id="xWx-Nr-FO9">
                                                                         <rect key="frame" x="0.0" y="8" width="418" height="154"/>
+                                                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     </imageView>
                                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="five_star" translatesAutoresizingMaskIntoConstraints="NO" id="fnc-1V-Gvn">
                                                                         <rect key="frame" x="20" y="121" width="378" height="30"/>
@@ -86,6 +87,9 @@
                                                                         </constraints>
                                                                         <color key="tintColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <state key="normal" image="favorite"/>
+                                                                        <connections>
+                                                                            <action selector="favoriteButtonAction:" destination="KKq-S8-6ST" eventType="touchUpInside" id="O5E-70-FAd"/>
+                                                                        </connections>
                                                                     </button>
                                                                 </subviews>
                                                                 <constraints>
@@ -285,8 +289,15 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Rg1-U1-qtZ"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Movie Detail" id="vh6-fk-NBE"/>
+                    <navigationItem key="navigationItem" title="Movie Detail" id="vh6-fk-NBE">
+                        <barButtonItem key="rightBarButtonItem" image="favorite" id="5QM-29-hrZ">
+                            <connections>
+                                <action selector="favoriteBarButtonAction:" destination="fMn-er-nEA" id="jcx-pK-zOG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="favoriteBarButton" destination="5QM-29-hrZ" id="eJ5-KC-wE4"/>
                         <outlet property="movieDateLabel" destination="pmF-Cu-Kf0" id="66G-K8-gQn"/>
                         <outlet property="movieOverviewTextView" destination="iaG-1Z-j2k" id="nob-sv-Ewa"/>
                         <outlet property="moviePosterImage" destination="Eb3-d5-dMu" id="3Xt-QL-ixI"/>

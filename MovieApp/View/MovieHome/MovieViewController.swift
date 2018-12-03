@@ -24,7 +24,7 @@ class MovieViewController: UIViewController {
         
         self.setUpRequestCallBack()
         
-        self.movieViewModel.getMovies(page: 1)
+        self.movieViewModel.getMovies()
     }
     
     private func setUpRequestCallBack() {
@@ -62,10 +62,8 @@ class MovieViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToMovieDetailVC" {
             let movieDetailVC = segue.destination as! MovieDetailViewController
-            
+            movieDetailVC.movieDelegate = self
             movieDetailVC.movieDetailViewModel = MovieDetailViewModel(movie: sender as! Movie)
-            
-//            movieDetailVC.movieDetailViewModel = sender as MovieViewModel
         }
     }
 }
@@ -84,9 +82,13 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pagerCell", for: indexPath) as! MoviePagerCollectionViewCell
         
-        cell.movieTableView.reloadData()
-        cell.movieViewModel = self.movieViewModel
         cell.movieDelegate = self
+        if indexPath.section == 1 {
+            cell.movieViewModel.movies = self.movieViewModel.movies.filter({ $0.isFavorite })
+        } else {
+            cell.movieViewModel.movies = self.movieViewModel.movies
+        }
+        cell.movieTableView.reloadData()
         
         return cell
     }
@@ -104,6 +106,11 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
 // Mark: - MovieDelegate
 extension MovieViewController: MovieDelegate {
+    func setFavoriteMovie(id: Int) {
+        self.movieViewModel.setFavoriteMovie(id: id)
+        self.pagerCollectionView.reloadData()
+    }
+    
     func showMovieDetail(movie: Movie) {
         self.performSegue(withIdentifier: "goToMovieDetailVC", sender: movie)
     }
