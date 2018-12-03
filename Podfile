@@ -9,6 +9,8 @@ target 'MovieApp' do
 
   pod 'Moya'
   pod 'AlamofireImage'
+  pod 'Firebase/Core'
+  pod 'Firebase/RemoteConfig'
 
   target 'MovieAppTests' do
     inherit! :search_paths
