@@ -29,6 +29,6 @@ class MovieTableViewCell: UITableViewCell {
         } else {
             self.movieFavoriteButton.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         }
-        self.movieDelegate?.setFavoriteMovie(movie: self.movie!)
+        self.movieDelegate?.setFavoriteMovie(id: (self.movie?.id)!)
     }
 }

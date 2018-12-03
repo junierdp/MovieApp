@@ -97,7 +97,7 @@ class MovieViewModel {
             Alamofire.request(url).responseImage(completionHandler: { response in
                 if let image = response.result.value {
                     whenLoaded(image)
-                    self.saveMovieImage(attribute: "backgroundImage", image: response.data!, movieId: movie!.id!)
+                    self.saveMovieBackgroundImage(image: response.data!, movieId: (movie?.id)!)
                 } else {
                     //                onError()
                 }
@@ -123,6 +123,7 @@ class MovieViewModel {
         movie.releaseDate = savedMovie.value(forKey: "releaseDate") as? String
         movie.isFavorite = savedMovie.value(forKey: "isFavorite") as? Bool ?? false
         movie.backgroundImage = savedMovie.value(forKey: "backgroundImage") as? Data
+        movie.posterImage = savedMovie.value(forKey: "posterImage") as? Data
         
         self.movies.append(movie)
     }
@@ -171,33 +172,32 @@ class MovieViewModel {
         return nil
     }
     
-    private func saveMovieImage(attribute: String, image: Data, movieId: Int) {
+    private func saveMovieBackgroundImage(image: Data, movieId: Int) {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MovieEntity")
         request.predicate = NSPredicate(format: "id == %@", "\(movieId)")
         
         do {
             let fetchedData = try context.fetch(request) as! [NSManagedObject]
             if let data = fetchedData.first {
-                data.setValue(image, forKey: attribute)
+                data.setValue(image, forKey: "backgroundImage")
             }
             try context.save()
         } catch let error {
             print(error)
         }
-        
     }
     
-    public func setFavoriteMovie(id: Int, isFavorite: Bool) {
+    public func setFavoriteMovie(id: Int) {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MovieEntity")
         request.predicate = NSPredicate(format: "id == %@", "\(id)")
         
         do {
             let fetchedData = try context.fetch(request) as! [NSManagedObject]
             if let data = fetchedData.first {
-                data.setValue(isFavorite, forKey: "isFavorite")
+                data.setValue(!(self.getMovieById(id: id)?.isFavorite)!, forKey: "isFavorite")
                 for i in 0..<self.movies.count {
                     if self.movies[i].id == id {
-                        self.movies[i].isFavorite = isFavorite
+                        self.movies[i].isFavorite = !self.movies[i].isFavorite
                     }
                 }
             }

@@ -62,7 +62,7 @@ class MovieViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToMovieDetailVC" {
             let movieDetailVC = segue.destination as! MovieDetailViewController
-            
+            movieDetailVC.movieDelegate = self
             movieDetailVC.movieDetailViewModel = MovieDetailViewModel(movie: sender as! Movie)
         }
     }
@@ -106,8 +106,8 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
 // Mark: - MovieDelegate
 extension MovieViewController: MovieDelegate {
-    func setFavoriteMovie(movie: Movie) {
-        self.movieViewModel.setFavoriteMovie(id: movie.id!, isFavorite: !movie.isFavorite)
+    func setFavoriteMovie(id: Int) {
+        self.movieViewModel.setFavoriteMovie(id: id)
         self.pagerCollectionView.reloadData()
     }
     

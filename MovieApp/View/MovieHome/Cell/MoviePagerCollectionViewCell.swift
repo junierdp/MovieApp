@@ -10,7 +10,8 @@ import UIKit
 
 protocol MovieDelegate {
     func showMovieDetail(movie: Movie)
-    func setFavoriteMovie(movie: Movie)
+    func setFavoriteMovie(id: Int)
+//    func getIsFavoriteMovie(id: Int)
 }
 
 class MoviePagerCollectionViewCell: UICollectionViewCell {

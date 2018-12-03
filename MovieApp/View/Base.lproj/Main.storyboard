@@ -289,8 +289,15 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Rg1-U1-qtZ"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Movie Detail" id="vh6-fk-NBE"/>
+                    <navigationItem key="navigationItem" title="Movie Detail" id="vh6-fk-NBE">
+                        <barButtonItem key="rightBarButtonItem" image="favorite" id="5QM-29-hrZ">
+                            <connections>
+                                <action selector="favoriteBarButtonAction:" destination="fMn-er-nEA" id="jcx-pK-zOG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="favoriteBarButton" destination="5QM-29-hrZ" id="eJ5-KC-wE4"/>
                         <outlet property="movieDateLabel" destination="pmF-Cu-Kf0" id="66G-K8-gQn"/>
                         <outlet property="movieOverviewTextView" destination="iaG-1Z-j2k" id="nob-sv-Ewa"/>
                         <outlet property="moviePosterImage" destination="Eb3-d5-dMu" id="3Xt-QL-ixI"/>
