@@ -24,7 +24,7 @@ class MovieViewController: UIViewController {
         
         self.setUpRequestCallBack()
         
-        self.movieViewModel.getMovies(page: 1)
+        self.movieViewModel.getMovies()
     }
     
     private func setUpRequestCallBack() {
@@ -104,6 +104,8 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
 // Mark: - MovieDelegate
 extension MovieViewController: MovieDelegate {
+    func setFavoriteMovie(movie: Movie) {}
+    
     func showMovieDetail(movie: Movie) {
         self.performSegue(withIdentifier: "goToMovieDetailVC", sender: movie)
     }
