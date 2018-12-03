@@ -12,7 +12,7 @@ target 'MovieApp' do
   pod 'Firebase/Core'
   pod 'Firebase/RemoteConfig'
   pod 'Fabric'
-  pod 'Crashlytics'
+  pod 'Crashlytics', '~>  3.12'
   pod 'Firebase/Analytics'
 
   target 'MovieAppTests' do

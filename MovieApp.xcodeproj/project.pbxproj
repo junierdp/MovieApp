@@ -347,7 +347,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\"\n";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" b1c2a929f54fcc7be5bcbbaa2131f44dd5aca9e1 54732976c00febd52138646b07ee4912925407bdd0a782d05f68adf0dbcb7ae9\n";
 		};
 		72A3556E80C3A651F07DE188 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -649,6 +649,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7N6FSGEBRG;
 				INFOPLIST_FILE = MovieAppTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -670,6 +671,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7N6FSGEBRG;
 				INFOPLIST_FILE = MovieAppTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
