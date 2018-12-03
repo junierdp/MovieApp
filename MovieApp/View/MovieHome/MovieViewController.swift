@@ -30,18 +30,20 @@ class MovieViewController: UIViewController {
     private func setUpRequestCallBack() {
         // While loading
         self.movieViewModel.whileLoading = {
-            // Display loading
+            Utility.util.displayActivityIndicator(view: <#T##UIView#>)
+            Utility.util.displayActivityIndicator(view: (self.navigationController?.view)!)
         }
         
         // When loaded
         self.movieViewModel.whenLoaded = {
-            // Set up movie collection view data
             self.pagerCollectionView.reloadData()
+            Utility.util.removeActivityIndicator(view: (self.navigationController?.view)!)
         }
         
         // On error
         self.movieViewModel.onError = { message in
-            // Display error message
+            Utility.util.removeActivityIndicator(view: (self.navigationController?.view)!)
+            Utility.util.alert("Oops!", message: message, titleAlert: "OK", style: .default, view: self.navigationController!)
         }
     }
     
