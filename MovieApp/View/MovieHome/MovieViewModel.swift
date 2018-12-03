@@ -59,16 +59,18 @@ class MovieViewModel {
         }
     }
     
-    func getMovieName(index: Int) -> String {
-        return self.movies[index].title ?? ""
+    func getMovieName(id: Int) -> String {
+        return self.getMovieById(id: id)?.title ?? ""
     }
     
-    func getMovieIsFavorite(index: Int) -> Bool {
-        return self.movies[index].isFavorite
+    func getMovieIsFavorite(id: Int) -> Bool {
+        return self.getMovieById(id: id)?.isFavorite ?? false
     }
     
-    func getRatingImage(index: Int) -> UIImage {
-        let rating = self.movies[index].voteAverage!
+    func getRatingImage(id: Int) -> UIImage {
+        let average: Double = (self.getMovieById(id: id)?.voteAverage)!
+
+        let rating = average
         switch rating {
         case 0..<2.5:
             return #imageLiteral(resourceName: "no_star")
@@ -85,21 +87,29 @@ class MovieViewModel {
         }
     }
     
-    func downloadImage(index: Int, whenLoaded: @escaping (UIImage) -> Void) {
-        let movie = self.movies[index]
-        if movie.backgroundImage != nil {
-            whenLoaded(UIImage(data: movie.backgroundImage!)!)
+    func downloadImage(id: Int, whenLoaded: @escaping (UIImage) -> Void) {
+        let movie = self.getMovieById(id: id)
+        
+        if movie!.backgroundImage != nil {
+            whenLoaded(UIImage(data: movie!.backgroundImage!)!)
         } else {
-            let url: String = "https://image.tmdb.org/t/p/original\(self.movies[index].backgroundPath ?? "")"
+            let url: String = "https://image.tmdb.org/t/p/original\(movie!.backgroundPath ?? "")"
             Alamofire.request(url).responseImage(completionHandler: { response in
                 if let image = response.result.value {
                     whenLoaded(image)
-                    self.saveMovieImage(attribute: "backgroundImage", image: response.data!, movieId: self.movies[index].id!)
+                    self.saveMovieImage(attribute: "backgroundImage", image: response.data!, movieId: movie!.id!)
                 } else {
                     //                onError()
                 }
             })
         }
+    }
+    
+    func getMovieById(id: Int) -> Movie? {
+        if let movie = self.movies.first(where: { $0.id == id }) {
+            return movie
+        }
+        return nil
     }
     
     private func appedSavedMovie(savedMovie: NSManagedObject) {

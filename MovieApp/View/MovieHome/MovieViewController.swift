@@ -64,8 +64,6 @@ class MovieViewController: UIViewController {
             let movieDetailVC = segue.destination as! MovieDetailViewController
             
             movieDetailVC.movieDetailViewModel = MovieDetailViewModel(movie: sender as! Movie)
-            
-//            movieDetailVC.movieDetailViewModel = sender as MovieViewModel
         }
     }
 }
@@ -84,9 +82,13 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pagerCell", for: indexPath) as! MoviePagerCollectionViewCell
         
-        cell.movieTableView.reloadData()
-        cell.movieViewModel = self.movieViewModel
         cell.movieDelegate = self
+        if indexPath.section == 1 {
+            cell.movieViewModel.movies = self.movieViewModel.movies.filter({ $0.isFavorite })
+        } else {
+            cell.movieViewModel.movies = self.movieViewModel.movies
+        }
+        cell.movieTableView.reloadData()
         
         return cell
     }
@@ -104,7 +106,10 @@ extension MovieViewController: UICollectionViewDelegate, UICollectionViewDataSou
 
 // Mark: - MovieDelegate
 extension MovieViewController: MovieDelegate {
-    func setFavoriteMovie(movie: Movie) {}
+    func setFavoriteMovie(movie: Movie) {
+        self.movieViewModel.setFavoriteMovie(id: movie.id!, isFavorite: !movie.isFavorite)
+        self.pagerCollectionView.reloadData()
+    }
     
     func showMovieDetail(movie: Movie) {
         self.performSegue(withIdentifier: "goToMovieDetailVC", sender: movie)
